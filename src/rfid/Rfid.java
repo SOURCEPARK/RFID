@@ -57,7 +57,7 @@ public class Rfid {
 
                 byte[] baCardUid = respApdu.getData();
 
-                System.out.print("Card UID = 0x");
+                System.out.print("Card UID: = 0x");
                 for(int i = 0; i < baCardUid.length; i++ ){
                     System.out.printf("%02X ", baCardUid [i]);
                 }
