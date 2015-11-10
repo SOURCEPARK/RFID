@@ -10,8 +10,12 @@ import javax.smartcardio.*;
 
 public class Rfid {
 
-    public static void main(String[] args) throws MalformedURLException, IOException {
+    public static void main(String[] args) throws MalformedURLException, IOException, InterruptedException {
         //driver: http://www.acs.com.hk/download-driver-unified/6258/ACS-Unified-Driver-Lnx-Mac-110-P.zip
+        while (true) {            
+           //nimmt später die Uid auf!
+            String cardUid = "";
+        
         try{
 
             // Liste mit allen verfügbaren Terminals
@@ -19,7 +23,7 @@ public class Rfid {
 
             List<CardTerminal> terminals = factory.terminals().list();
 
-            System.out.println("Terminals: " + terminals);
+         //   System.out.println("Terminals: " + terminals);//schreibt das aktuelle terminal in die console!
             
             // das erste terminal "bekommen"
             CardTerminal terminal = terminals.get(0);
@@ -52,7 +56,7 @@ public class Rfid {
                 
                  Formatter formatter = new Formatter();
 
-                 String cardUid = "";
+                 
                 for(int i = 0; i < baCardUid.length; i++ ){
                     System.out.printf("%02X", baCardUid [i]);
                  
@@ -63,15 +67,25 @@ public class Rfid {
                 System.out.println("Die Uid ist: " +cardUid);
             }
             
+            //schickt die Uid an den Server ab!
+            URL url = new URL("http://localhost:8888/auth/"+ cardUid);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.disconnect();
+     
+     
             
-//            URL url = new URL("http://localhost:8888/auth/ ");
-//     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//     urlConnection.disconnect();
+            
+            Thread.sleep(4000);
+            
+            
+            
 
         card.disconnect(false);
 
         } catch (CardException e) {
-            e.printStackTrace();
+            System.out.println("Keine Karte!");
+            Thread.sleep(500);
         }
     }
+   }
 }
