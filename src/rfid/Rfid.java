@@ -1,5 +1,12 @@
 
 package rfid;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -7,11 +14,14 @@ import java.net.URL;
 import java.util.Formatter;
 import java.util.List;
 import javax.smartcardio.*;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.MediaType;
 
 public class Rfid {
 
     public static void main(String[] args) throws MalformedURLException, IOException, InterruptedException {
         //driver: http://www.acs.com.hk/download-driver-unified/6258/ACS-Unified-Driver-Lnx-Mac-110-P.zip
+       String REST_URL = "http://192.168.38.76:8888/auth/";
         while (true) {            
            //nimmt später die Uid auf!
             String cardUid = "";
@@ -68,11 +78,27 @@ public class Rfid {
             }
             
             //schickt die Uid an den Server ab!
-            URL url = new URL("http://localhost:8888/auth/"+ cardUid);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.disconnect();
+//            URL url = new URL(REST_URL+ cardUid);
+//            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//            urlConnection.disconnect();
      
-     
+     try {
+            System.out.println("notity called");
+            ClientConfig config = new DefaultClientConfig();
+            Client client = Client.create(config);
+            System.out.println(REST_URL + cardUid);
+            WebResource webResource = client.resource(UriBuilder.fromUri(REST_URL + cardUid).build());
+
+            ClientResponse response = webResource.type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).post(ClientResponse.class);
+            System.out.println("Response: " + response.getEntity(String.class));
+            
+        } catch (ClientHandlerException | UniformInterfaceException ex) {
+            ex.printStackTrace();
+
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
             
             
             Thread.sleep(4000);
