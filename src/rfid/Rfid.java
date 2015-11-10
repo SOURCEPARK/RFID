@@ -21,7 +21,7 @@ public class Rfid {
 
     public static void main(String[] args) throws MalformedURLException, IOException, InterruptedException {
         //driver: http://www.acs.com.hk/download-driver-unified/6258/ACS-Unified-Driver-Lnx-Mac-110-P.zip
-       String REST_URL = "http://192.168.38.76:8888/auth/";
+       String REST_URL = "http://localhost/auth/";
         while (true) {            
            //nimmt später die Uid auf!
             String cardUid = "";
