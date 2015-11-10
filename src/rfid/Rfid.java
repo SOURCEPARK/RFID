@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Formatter;
 import java.util.List;
 import javax.smartcardio.*;
 
@@ -48,15 +49,24 @@ public class Rfid {
                 byte[] baCardUid = respApdu.getData();
 
                 System.out.print("Card UID: = 0x");
+                
+                 Formatter formatter = new Formatter();
+
+                 String cardUid = "";
                 for(int i = 0; i < baCardUid.length; i++ ){
-                    System.out.printf("%02X ", baCardUid [i]);
+                    System.out.printf("%02X", baCardUid [i]);
+                 
+                 cardUid = cardUid + formatter.format("%02X", baCardUid[i]);
                 }
+               cardUid = cardUid.substring(15, 20);
+                System.out.println("");
+                System.out.println("Die Uid ist: " +cardUid);
             }
             
             
-            URL url = new URL("http://localhost:8888/auth/123456");
-     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-     urlConnection.disconnect();
+//            URL url = new URL("http://localhost:8888/auth/ ");
+//     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//     urlConnection.disconnect();
 
         card.disconnect(false);
 

@@ -27,3 +27,6 @@ http://www.acs.com.hk/download-driver-unified/6258/ACS-Unified-Driver-Lnx-Mac-11
 **make**
 
 **make install**
+#Starten des Treibers:
+
+**/etc/init.d/pcscd start**
