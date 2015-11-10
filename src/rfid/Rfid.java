@@ -83,7 +83,6 @@ public class Rfid {
         card.disconnect(false);
 
         } catch (CardException e) {
-            System.out.println("Keine Karte!");
             Thread.sleep(500);
         }
     }
