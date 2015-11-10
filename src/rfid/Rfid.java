@@ -62,7 +62,7 @@ public class Rfid {
                  
                  cardUid = cardUid + formatter.format("%02X", baCardUid[i]);
                 }
-               cardUid = cardUid.substring(15, 20);
+               cardUid = cardUid.substring(12, 20);
                 System.out.println("");
                 System.out.println("Die Uid ist: " +cardUid);
             }
